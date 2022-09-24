@@ -74,8 +74,15 @@
 </main>
 
 <footer>
-  Me, the author, <a href="https://sacha.house">Sacha FROMENT</a> at your service
-  😎
+  <p>
+    Me, the author, <a href="https://sacha.house">Sacha FROMENT</a> at your service
+    😎.
+  </p>
+  <p>
+    <a href="https://gitlab.com/sachahjkl/button.sacha.house"
+      >⌨️ Source code for this page</a
+    >
+  </p>
 </footer>
 
 <style>
@@ -85,6 +92,12 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+  }
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .mojang {
@@ -108,6 +121,7 @@
     padding: 0.5rem;
     border-radius: 0.5rem;
     /* border: 1px solid rgba(70, 70, 70, 0.2); */
+    margin-bottom: 6rem;
   }
 
   h1 {
