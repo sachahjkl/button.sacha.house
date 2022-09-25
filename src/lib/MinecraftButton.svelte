@@ -10,9 +10,11 @@
   <div class="border right" />
   <div class="border border-black-h" />
   <div class="border border-black-w" />
-  <p class="text">
-    {text}
-  </p>
+  <div class="content">
+    <p class="text">
+      {text}
+    </p>
+  </div>
 </button>
 
 <style>
@@ -26,34 +28,48 @@
     --blue-bottom: #3fb9eb;
     --blue-main: #4ad5ff;
     --blue-main-hover: #70dfff;
+    --blue-main-active: #339ac3;
     --text-color: #001236;
 
     --shadow-color: rgba(255, 255, 255, 1);
 
-    --shadow-offset-max: 2em;
+    --shadow-offset-max: 1em;
 
     --font-size: 1rem;
 
     --animate-rythm: cubic-bezier(0.75, 0.35, 0.25, 0.88);
     --border-thickness: 0.2em;
     --border-border-thickness: 0.1em;
+    --border-color: black;
+    --border-color-active: white;
 
     --thickness: calc(var(--border-thickness) + var(--border-border-thickness));
   }
 
   button {
-    padding: 0.4rem 0.4rem;
-    margin: var(--thickness);
+    margin: 0;
+    padding: 0;
     border-radius: 0;
     border: none;
     position: relative;
-    cursor: pointer;
     font-size: var(--font-size);
-    background-color: var(--blue-main);
+    transition: transform 0.2s ease;
+    margin: var(--thickness);
+    outline: none;
   }
 
-  button:hover {
+  .content {
+    padding: 0.4rem 0.4rem;
+    background-color: var(--blue-main);
+    /* z-index: 2; */
+  }
+
+  button:hover .content {
     background-color: var(--blue-main-hover);
+  }
+
+  button:active {
+    transform: translateY(5%);
   }
 
   button::after {
@@ -66,7 +82,7 @@
     animation: shadow 1s alternate infinite var(--animate-rythm);
     will-change: filter;
     z-index: -4;
-    background-color: white;
+    background-color: black;
   }
 
   @keyframes shadow {
@@ -81,11 +97,11 @@
   .text {
     margin: 0.3em 1.4em;
     margin-bottom: 0.4em;
-    padding-bottom: em;
     font-family: 'Minecraft', sans-serif;
     animation: zimzoom 1s alternate infinite var(--animate-rythm);
     text-shadow: 0 0.1em var(--blue-shadow);
     color: var(--text-color);
+    z-index: 2;
   }
 
   .border {
@@ -99,7 +115,7 @@
     position: absolute;
     height: calc(100% + var(--thickness) * 2);
     width: calc(100% + var(--border-border-thickness) * 2);
-    background-color: black;
+    background-color: var(--border-color);
   }
 
   .border-black-w {
@@ -108,7 +124,11 @@
     position: absolute;
     height: calc(100% + var(--border-border-thickness) * 2);
     width: calc(100% + var(--thickness) * 2);
-    background-color: black;
+    background-color: var(--border-color);
+  }
+
+  button:is(:active,:focus) :is(.border-black-h, .border-black-w) {
+    background-color: var(--border-color-active);
   }
 
   .top,
@@ -133,27 +153,27 @@
     top: calc(var(--border-thickness) * -1);
     left: 0;
     width: 100%;
-    height: calc(1em + var(--border-thickness));
+    height: calc(0.2em + var(--border-thickness));
     background-color: var(--blue-top);
   }
   .bottom {
     bottom: calc(var(--border-thickness) * -1);
     left: 0;
     width: 100%;
-    height: calc(1em + var(--border-thickness));
+    height: calc(0.2em + var(--border-thickness));
     background-color: var(--blue-bottom);
   }
   .left {
     top: 0;
     left: calc(var(--border-thickness) * -1);
-    width: calc(1em + var(--border-thickness));
+    width: calc(0.2em + var(--border-thickness));
     height: 100%;
     background-color: var(--blue-left);
   }
   .right {
     top: 0;
     right: calc(var(--border-thickness) * -1);
-    width: calc(1em + var(--border-thickness));
+    width: calc(0.2em + var(--border-thickness));
     height: 100%;
     background-color: var(--blue-right);
   }
