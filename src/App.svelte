@@ -5,6 +5,7 @@
   import MinecraftButton from './lib/MinecraftButton.svelte';
   import type { RangeHue } from './utils';
   import Notification from './lib/Notification.svelte';
+  import { latestUri } from './stores';
 
   const TEXT_PARAM = 'text';
   const SIZE_PARAM = 'size';
@@ -41,10 +42,13 @@
         url: text ? `${pathname}?${params}` : pathname,
       };
       history.pushState(stateObj, stateObj.title, stateObj.url);
+      $latestUri = stateObj.url;
     }
   }, 200);
 
   onMount(() => {
+    $latestUri = location.toString();
+
     const params = new URLSearchParams(location.search);
     const textParam = params.get(TEXT_PARAM);
     const sizeParam = params.get(SIZE_PARAM);
@@ -181,9 +185,7 @@
       </div>
     </div>
     <Clipboard
-      text={(() => {
-        return location.toString();
-      })()}
+      text={$latestUri}
       let:copy
       on:copy={() => {
         showNotification = true;
@@ -229,7 +231,7 @@
   on:click={() => (showNotification = false)}
   show={showNotification}
   title="You now have your custom button URL in your clipboard ! 🎉"
-  message={(() => location.toString())()}
+  message={$latestUri}
 />
 
 <style>
