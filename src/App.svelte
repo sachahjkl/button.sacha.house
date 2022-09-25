@@ -1,16 +1,72 @@
 <script lang="ts">
+  import Clipboard from 'svelte-clipboard';
+  import { onMount } from 'svelte';
   import MinecraftButton from './lib/MinecraftButton.svelte';
-  let text = 'New trailer';
-  let size = 3;
+  import type { RangeHue } from './utils';
+
+  const TEXT_PARAM = 'text';
+  const SIZE_PARAM = 'size';
+  const HUE_PARAM = 'hue';
+  const ANIMATE_PARAM = 'animate';
+  const DARK_PARAM = 'dark';
+
+  let text = 'NEW TRAILER';
+  let size = 2;
+  let hue: RangeHue = 194;
+  let animate = true;
+  let darkToggle = true;
+  let colorTheme: 'light' | 'dark' = 'dark';
+  let loaded = false;
+  $: colorTheme = darkToggle ? 'dark' : 'light';
+  $: {
+    if (loaded) {
+      const params = new URLSearchParams(window.location.search);
+      params.set(TEXT_PARAM, text);
+      params.set(SIZE_PARAM, size.toString());
+      params.set(HUE_PARAM, hue.toString());
+      params.set(ANIMATE_PARAM, animate.toString());
+      params.set(DARK_PARAM, darkToggle.toString());
+      const { pathname } = location;
+      const stateObj = {
+        title: `Recherche : ${text}`,
+        url: text ? `${pathname}?${params}` : pathname,
+      };
+      history.pushState(stateObj, stateObj.title, stateObj.url);
+    }
+  }
+  onMount(() => {
+    const params = new URLSearchParams(location.search);
+    const textParam = params.get(TEXT_PARAM);
+    const sizeParam = params.get(SIZE_PARAM);
+    const hueParam = params.get(HUE_PARAM);
+    const animateParam = params.get(ANIMATE_PARAM);
+    const darkParam = params.get(DARK_PARAM);
+    if (textParam) {
+      text = textParam;
+    }
+    if (sizeParam) {
+      size = parseFloat(sizeParam);
+    }
+    if (hueParam) {
+      hue = (parseInt(hueParam) % 360) as RangeHue;
+    }
+    if (animateParam === 'true' || animateParam === 'false') {
+      animate = JSON.parse(animateParam) as boolean;
+    }
+    if (darkParam === 'true' || darkParam === 'false') {
+      darkToggle = JSON.parse(darkParam) as boolean;
+    }
+    loaded = true;
+  });
 </script>
 
 <svelte:head>
-  <title>😢 Issue with the "new trailer" minecraft launcher button</title>
+  <title>Issue with the "new trailer" minecraft launcher button</title>
 </svelte:head>
 
 <article>
   <header>
-    <h1>😢 Issue with the "new trailer" Minecraft launcher button</h1>
+    <h1>⛏️ Issue with the "new trailer" Minecraft launcher <u>button</u></h1>
   </header>
   <p>
     When I recently launched the Minecraft launcher, I was obviously curious
@@ -37,40 +93,91 @@
   </a>
 
   <p>
-    Unfortunately, I also noticed a problem with their button/link to the game's
-    trailer (my pc is french) :
+    Unfortunately, I also noticed a problem with their <u>button/link</u> to the
+    game's trailer (my pc is french) :
   </p>
   <video src="/fail.mp4" autoplay loop controls>
     <track kind="captions" />
   </video>
   <p>
-    So I chose to reimplement the button using pure
-    <span class="cybernetic"> SVELTE (Cybernetically enhanced web apps)</span>
-    and CSS and 🎉TADA🎉 :
+    So I chose to reimplement the button using <u
+      >pure
+      <span class="cybernetic"> SVELTE (Cybernetically enhanced web apps)</span>
+      and CSS</u
+    > and 🎉TADA🎉 :
   </p>
 
   <section class="demo">
+    <p>You can modify :</p>
     <div class="actions">
       <div class="action">
-        <label for="text"><b>Choose the text within the button</b></label>
+        <label for="hue"><b>The hue... </b></label>
+        <input
+          type="range"
+          name="hue"
+          min={0}
+          max={359}
+          id="hue"
+          bind:value={hue}
+        />
+      </div>
+      <div class="action">
+        <label for="text"><b>...the text... </b></label>
         <input id="text" name="text" type="text" bind:value={text} />
       </div>
       <div class="action">
-        <label for="size"><b>Change the size of the element</b></label>
+        <label for="dark"
+          ><b
+            >...the color theme/variant (current = <em>{colorTheme}</em>) ...
+          </b></label
+        >
+        <input
+          id="dark"
+          name="dark"
+          type="checkbox"
+          bind:checked={darkToggle}
+        />
+      </div>
+      <div class="action">
+        <label for="animate"><b>...wether or not to animate... </b></label>
+        <input
+          id="animate"
+          name="animate"
+          type="checkbox"
+          bind:checked={animate}
+        />
+      </div>
+      <div class="action">
+        <label for="size"><b>...or the size</b></label>
         <input
           type="range"
           name="size"
           id="size"
           min="0.25"
-          step=".25"
+          step=".05"
           max="5"
           bind:value={size}
         />
       </div>
     </div>
+    <Clipboard
+      text={(() => {
+        return location.toString();
+      })()}
+      let:copy
+      on:copy={() => {
+        alert(
+          `You now have your custom button URL in your clipboard ! 🎉`
+        );
+      }}
+    >
+      <button on:click={copy} class="share"
+        >📋 Copy your <b>custom button URL</b> to the clipboard !</button
+      >
+    </Clipboard>
 
     <div class="button">
-      <MinecraftButton {text} {size} />
+      <MinecraftButton {text} {size} {hue} {animate} {colorTheme} />
     </div>
   </section>
 </article>
@@ -92,19 +199,27 @@
 
   .actions {
     margin: 1rem auto;
-    display: flex;
-    flex-wrap: wrap;
+    /* display: flex; */
     justify-content: space-around;
   }
 
   .action {
     margin: 1rem auto;
   }
+  .action > input:not([type='checkbox']) {
+    flex: 1 1 100%;
+  }
+
+  .share {
+    padding: 0.25rem 0.5rem;
+  }
+
   footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    border-top: var(--text-color);
   }
 
   .legends {
@@ -135,27 +250,26 @@
   }
 
   h1 {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  input {
-    min-width: fit-content;
-    padding: 0.5rem;
+    font-size: 2rem;
   }
   video {
     display: block;
     max-width: 80%;
   }
   label {
-    vertical-align: middle;
     margin-bottom: 4px;
-    display: inline-block;
+    display: block;
   }
   input {
-    min-width: fit-content;
-    padding: 0.5rem;
     display: block;
+    width: 80%;
+    margin: 0.5rem;
+  }
+  input[type='checkbox'] {
+    width: auto;
+  }
+  input[type='text'] {
+    padding: 0.5rem;
   }
   img,
   video {
