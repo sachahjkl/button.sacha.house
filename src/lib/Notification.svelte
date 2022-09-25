@@ -30,7 +30,7 @@
     position: fixed;
     top: 0;
     right: 0;
-    max-width: 400px;
+    max-width: min(calc(80vw - 1rem), 400px);
     padding: 1rem;
     background-color: var(--button-base);
     border-radius: 0.25rem;
