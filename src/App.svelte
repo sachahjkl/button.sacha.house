@@ -200,7 +200,7 @@
     </Clipboard>
 
     <div class="button">
-      <div style="z-index: 4;">
+      <div style="z-index: 4; max-width: 90%; margin: auto">
         <MinecraftButton {text} {size} {hue} {animate} {colorTheme} />
       </div>
     </div>
