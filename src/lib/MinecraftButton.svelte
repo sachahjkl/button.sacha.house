@@ -18,7 +18,7 @@
 </button>
 
 <style>
-  @import url('http://fonts.cdnfonts.com/css/minecraft-4');
+  @import url('https://fonts.cdnfonts.com/css/minecraft-4');
 
   :root {
     --blue-shadow: #3fb9eb;
