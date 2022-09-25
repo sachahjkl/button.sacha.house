@@ -1,14 +1,17 @@
 <script lang="ts">
   import Clipboard from 'svelte-clipboard';
+  import { debounce } from 'debounce';
   import { onMount } from 'svelte';
   import MinecraftButton from './lib/MinecraftButton.svelte';
   import type { RangeHue } from './utils';
+  import Notification from './lib/Notification.svelte';
 
   const TEXT_PARAM = 'text';
   const SIZE_PARAM = 'size';
   const HUE_PARAM = 'hue';
   const ANIMATE_PARAM = 'animate';
   const DARK_PARAM = 'dark';
+  const NOTIFICATION_TIMEOUT = 2000;
 
   let text = 'NEW TRAILER';
   let size = 2;
@@ -17,9 +20,15 @@
   let darkToggle = true;
   let colorTheme: 'light' | 'dark' = 'dark';
   let loaded = false;
+
+  let showNotification = false;
+  let notificationTimeout: number;
+
   $: colorTheme = darkToggle ? 'dark' : 'light';
-  $: {
+
+  const updateURI = debounce(() => {
     if (loaded) {
+      console.log('test');
       const params = new URLSearchParams(window.location.search);
       params.set(TEXT_PARAM, text);
       params.set(SIZE_PARAM, size.toString());
@@ -33,7 +42,8 @@
       };
       history.pushState(stateObj, stateObj.title, stateObj.url);
     }
-  }
+  }, 200);
+
   onMount(() => {
     const params = new URLSearchParams(location.search);
     const textParam = params.get(TEXT_PARAM);
@@ -115,6 +125,7 @@
         <input
           type="range"
           name="hue"
+          on:change={updateURI}
           min={0}
           max={359}
           id="hue"
@@ -123,7 +134,13 @@
       </div>
       <div class="action">
         <label for="text"><b>...the text... </b></label>
-        <input id="text" name="text" type="text" bind:value={text} />
+        <input
+          on:input={updateURI}
+          id="text"
+          name="text"
+          type="text"
+          bind:value={text}
+        />
       </div>
       <div class="action">
         <label for="dark"
@@ -135,6 +152,7 @@
           id="dark"
           name="dark"
           type="checkbox"
+          on:change={updateURI}
           bind:checked={darkToggle}
         />
       </div>
@@ -144,6 +162,7 @@
           id="animate"
           name="animate"
           type="checkbox"
+          on:change={updateURI}
           bind:checked={animate}
         />
       </div>
@@ -151,6 +170,7 @@
         <label for="size"><b>...or the size</b></label>
         <input
           type="range"
+          on:change={updateURI}
           name="size"
           id="size"
           min="0.25"
@@ -166,8 +186,11 @@
       })()}
       let:copy
       on:copy={() => {
-        alert(
-          `You now have your custom button URL in your clipboard ! 🎉`
+        showNotification = true;
+        if (notificationTimeout) clearTimeout(notificationTimeout);
+        notificationTimeout = setTimeout(
+          () => (showNotification = false),
+          NOTIFICATION_TIMEOUT
         );
       }}
     >
@@ -177,7 +200,9 @@
     </Clipboard>
 
     <div class="button">
-      <MinecraftButton {text} {size} {hue} {animate} {colorTheme} />
+      <div style="z-index: 4;">
+        <MinecraftButton {text} {size} {hue} {animate} {colorTheme} />
+      </div>
     </div>
   </section>
 </article>
@@ -194,6 +219,13 @@
   </p>
 </footer>
 
+<Notification
+  on:click={() => (showNotification = false)}
+  show={showNotification}
+  title="You now have your custom button URL in your clipboard ! 🎉"
+  message={(() => location.toString())()}
+/>
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Overpass&display=swap');
 
@@ -208,10 +240,6 @@
   }
   .action > input:not([type='checkbox']) {
     flex: 1 1 100%;
-  }
-
-  .share {
-    padding: 0.25rem 0.5rem;
   }
 
   footer {
@@ -240,11 +268,11 @@
   }
 
   .button {
-    margin: 6rem auto;
+    padding: 6rem 0px;
+    margin: 1rem auto;
     display: flex;
     place-content: center;
-    /* background-color: rgba(175, 175, 175, 0.5); */
-    padding: 0.5rem;
+    background-color: hsl(0, 0%, 10%);
     border-radius: 0.5rem;
     /* border: 1px solid rgba(70, 70, 70, 0.2); */
   }

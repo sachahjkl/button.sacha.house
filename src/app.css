@@ -2,9 +2,7 @@
   font-family: 'Minecraft';
   font-style: normal;
   font-weight: 400;
-  src: local('Minecraft'),
-    url('/Minercraftory.ttf')
-      format('woff');
+  src: local('Minecraft'), url('/Minercraftory.ttf') format('woff');
 }
 
 :root {
@@ -20,14 +18,25 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   line-height: 1.4;
-  font-size: 1.3rem;
+  /* font-size: 1.3rem; */
   word-wrap: break-word;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-body: hsl(0, 0%, 15%);
+    --background: hsl(0, 0%, 13%);
+    --background-alt: hsl(0, 0%, 10%);
+
+    --button-base: hsl(0, 0%, 10%);
+    --button-hover: hsl(0, 0%, 5%);
+  }
+}
 body {
   margin: 0px;
   min-width: 100%;
   min-height: 100vh;
+  position: relative;
 }
 
 #app {

@@ -104,6 +104,7 @@
     transition: transform 0.2s ease;
     margin: var(--thickness);
     outline: none;
+    box-shadow: none;
   }
 
   .content {
