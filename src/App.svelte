@@ -29,7 +29,11 @@
   <a
     href="https://static.wikia.nocookie.net/logopedia/images/7/7d/Minecraft_Legends_logo.png"
   >
-    <img src="/Minecraft_Legends_logo.png" alt="Logo minecraft legends" />
+    <img
+      class="legends"
+      src="/Minecraft_Legends_logo.png"
+      alt="Logo minecraft legends"
+    />
   </a>
 
   <p>
@@ -103,6 +107,10 @@
     align-items: center;
   }
 
+  .legends {
+    max-height: 100px;
+  }
+
   .mojang {
     display: inline-block;
     margin: 0 0.2rem;
@@ -136,7 +144,6 @@
     padding: 0.5rem;
   }
   video {
-    margin: 1rem auto;
     display: block;
     max-width: 80%;
   }
@@ -149,5 +156,9 @@
     min-width: fit-content;
     padding: 0.5rem;
     display: block;
+  }
+  img,
+  video {
+    margin: 2rem auto;
   }
 </style>

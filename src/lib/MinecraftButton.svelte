@@ -96,7 +96,7 @@
 
   .text {
     margin: 0.3em 1.4em;
-    margin-bottom: 0.4em;
+    margin-bottom: 0.6em;
     font-family: 'Minecraft', sans-serif;
     animation: zimzoom 1s alternate infinite var(--animate-rythm);
     text-shadow: 0 0.1em var(--blue-shadow);
@@ -184,7 +184,7 @@
     }
 
     to {
-      transform: scale(1.2) translateY(-0.2rem);
+      transform: scale(1.2);
     }
   }
 </style>
