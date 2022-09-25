@@ -34,13 +34,15 @@
 }
 body {
   margin: 0px;
+  padding: 0px;
+  min-width: 100vw;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
 }
 
 #app {
-  padding: 1rem;
+  padding: 1rem 2rem;
   margin: auto;
   max-width: 800px;
   overflow: visible;

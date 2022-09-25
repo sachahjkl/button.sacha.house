@@ -215,7 +215,12 @@
   <p>
     <a href="https://gitlab.com/sachahjkl/button.sacha.house"
       >⌨️ Source code for this page</a
-    >
+    > -
+    <img
+      class="status"
+      src="https://api.netlify.com/api/v1/badges/cd8ec1c1-9e54-4d2c-a35d-3e5bbd323b0b/deploy-status"
+      alt="Status"
+    />
   </p>
 </footer>
 
@@ -259,6 +264,11 @@
     margin: 0 0.2rem;
     height: 0.8rem;
     justify-self: center;
+  }
+
+  .status {
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .cybernetic {
