@@ -33,19 +33,22 @@
   }
 }
 body {
-  margin: 0px;
+  margin: auto;
   padding: 0px;
   min-width: 100vw;
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden;
 }
 
 #app {
   padding: 1rem 2rem;
   margin: auto;
-  max-width: 800px;
+  max-width: 900px;
   overflow: visible;
+}
+
+img {
+  vertical-align: middle;
 }
 
 img {
@@ -53,6 +56,7 @@ img {
   margin: 1rem auto;
   max-width: 95%;
   height: auto;
+
   /* background-color: rgba(0, 0, 0, 0.5);
   padding: 0.5rem;
   border-radius: 0.5rem;

@@ -200,7 +200,7 @@
     </Clipboard>
 
     <div class="button">
-      <div style="z-index: 4; max-width: 90%; margin: auto">
+      <div class="blocker">
         <MinecraftButton {text} {size} {hue} {animate} {colorTheme} />
       </div>
     </div>
@@ -215,7 +215,8 @@
   <p>
     <a href="https://gitlab.com/sachahjkl/button.sacha.house"
       >⌨️ Source code for this page</a
-    > -
+    >
+    -
     <img
       class="status"
       src="https://api.netlify.com/api/v1/badges/cd8ec1c1-9e54-4d2c-a35d-3e5bbd323b0b/deploy-status"
@@ -284,7 +285,14 @@
     place-content: center;
     background-color: hsl(0, 0%, 10%);
     border-radius: 0.5rem;
+    overflow: hidden;
     /* border: 1px solid rgba(70, 70, 70, 0.2); */
+  }
+
+  .blocker {
+    z-index: 4;
+    max-width: 90%;
+    margin: auto;
   }
 
   h1 {
