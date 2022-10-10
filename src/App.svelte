@@ -42,7 +42,7 @@
         url: text ? `${pathname}?${params}` : pathname,
       };
       history.pushState(stateObj, stateObj.title, stateObj.url);
-      $latestUri = stateObj.url;
+      $latestUri = location.toString();
     }
   }, 200);
 
