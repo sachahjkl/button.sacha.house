@@ -1,5 +1,11 @@
 # Svelte + TS + Vite
 
+## Deployment
+
+GitHub Actions checks every branch on GitHub-hosted runners. A commit on `master` publishes one immutable GHCR image and deploys staging.
+
+The production workflow promotes the exact staging digest after approval. Nomad jobs live in `deploy/nomad`.
+
 This template should help get you started developing with Svelte and TypeScript in Vite.
 
 ## Recommended IDE Setup
