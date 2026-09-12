@@ -1,0 +1,8 @@
+application:
+  name: button-sacha-house
+  port: 3000
+  healthPath: /
+
+domain:
+  production: button.sacha.house
+  staging: staging.button.sacha.house
