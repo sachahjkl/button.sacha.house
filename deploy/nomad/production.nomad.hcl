@@ -49,9 +49,7 @@ job "button-sacha-house" {
       mode = "host"
 
       port "http" {
-        static       = 9042
-        to           = 3000
-        host_network = "loopback"
+        to = 3000
       }
     }
 
