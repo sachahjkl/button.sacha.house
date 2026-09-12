@@ -68,7 +68,7 @@ job "button-sacha-house" {
         port     = "http"
         tags = [
           "traefik.enable=true",
-          "traefik.http.routers.button-sacha-house-production.entrypoints=nomad",
+          "traefik.http.routers.button-sacha-house-production.entrypoints=websecure",
           "traefik.http.routers.button-sacha-house-production.rule=Host(`button.sacha.house`)",
         ]
 
